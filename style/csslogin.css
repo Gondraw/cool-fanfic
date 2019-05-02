@@ -1,0 +1,126 @@
+body {
+	background:url(../images/fondoini.jpg);
+	background-size: 100vw 100vh;
+	background-attachment: fixed;
+	margin: 0;
+}
+
+* {
+margin: 0px;
+padding: 0px;
+}
+
+nav ul {
+	list-style: none;
+}
+
+nav > ul {
+	display:table;
+	overflow: hidden;
+	width: 1366px;
+	height: 50px;
+	background: #000;
+	position: relative;
+}
+
+nav > ul li {
+	display:table-cell;
+}
+
+nav ul > li > ul{
+	display: none;
+}
+
+nav > ul li a {
+text-decoration: none;
+color:#fff;
+font-size:25px;
+display: block;
+line-height: 20px;
+padding: 20px;
+position: relative;
+text-align: center;
+-webkit-transition: all .3s ease;
+-moz-transition: all .3s ease;
+-ms-transition: all .3s ease;
+-o-transition: all .3s ease;
+transition: all .3s ease;
+text-shadow: 0 0 5px #fff, 0 0 10px #D50000, 0 0 15px #D50000, 0 0 20px #D50000, 0 0 20px #D50000; 
+-webkit-text-fill-color: #000; 
+-webkit-text-stroke-color:#000; 
+-webkit-text-stroke-width:0.2px; 
+-moz-text-fill-color: #000; 
+-moz-text-stroke-color:#000; 
+-moz-text-stroke-width:0.5px; 
+}
+
+nav > ul li a:hover {
+	background-color: #474747;}
+
+div#inicial {
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	height: 320px;
+	background: transparent;
+	margin-left: 25px;
+	margin-top: 25px;
+}
+
+ form {
+ 	width: 550px;
+ 	height: 320px;
+ 	margin: auto;
+ 	background:rgba(0,0,0,0.4);
+ 	padding: 10px 20px;
+ 	box-sizing: border-box;
+ 	border-radius: 7px;
+ -webkit-box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);}
+
+ input {
+ 	width: 100%;
+ 	margin-bottom: 20px;
+ 	padding: 7px;
+ 	box-sizing: border-box;
+ 	font-size: 20px;
+ 	border: none;
+ 	font-family:Enchanted Land;
+ 	background: transparent;
+ 	color: #fff;
+
+ }
+
+ h2 {
+	text-align: center;
+	font-family: Dark Crystal;
+	color: #fff;
+	font-size: 50px;
+}
+
+#boton {
+	background: transparent;
+	color: #fff;
+	padding: 20px;
+	font-family: Dark Crystal;
+	font-size:30px;
+	border: 2px solid #fff;
+}
+
+#boton:hover {
+	cursor: pointer;
+	background:rgba(0,0,0,0.6);
+}
+
+a#nolisto {
+	text-decoration: none;
+	font-family: Dark Crystal;
+	font-size: 20px;
+	color: #fff;
+	margin-left: 150px;
+}
+
+a#nolisto:hover {
+	text-decoration: underline;
+}
