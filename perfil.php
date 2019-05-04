@@ -49,7 +49,7 @@ ini_set ('error_reporting',0);
 		<img src="" height="270\0" width="1349">
 		</div>
 		<div id="avatar">
-            <center><img src="" width="100" height="100"></center>
+            <center><img src="<?php  echo $_SESSION['avatar']?>" width="100" height="100"></center>
             <br><br><br><br>
             <div id="usuario"><?php echo $_SESSION["usuarioMostrar"] ?></div>
             <hr>

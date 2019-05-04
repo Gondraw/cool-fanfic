@@ -1,12 +1,13 @@
 <?php 
-  
+ 
   session_start();
+  
 include "funcion.php";
 if (isset($_SESSION['usuario'])) {
     header("Location: Login.php");
 }
 ini_set ('error_reporting',0);
-
+ require_once "db/AccesoDB.php";
 ?>
 
 
@@ -19,8 +20,101 @@ ini_set ('error_reporting',0);
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<link rel="icon" type="image/png" href="style/favico.png">
 	<link rel="stylesheet" type="text/css" href="style1/style1.css">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+		 <script type="text/javascript">
+	 	$(function(){
+			$("#editarDatos").click(function(){
+
+					console.log($("#file1")[0]);
+					 $.ajax({url: "Controller/usuariosController.php?Operacion=actualizarDatos",
+					 data: {
+			            "usuario": $("#usuariodato").val(),
+			            "contrasena": $("#password").val()
+			           
+			          },
+
+					  success: function(result){
+					  	//po rque se te complica tanto me desespera eso
+					  	if(result["0"]["cambioExitoso"]){
+					  		alert("sus datos cambiaron ");
+					  	}else{
+					  		alert("sus datos no cambiaron");
+					  	}
+					  	//alert("inicio  se sesion exitoso");
+
+    					console.log("entro aqui ",result);
+  				     }});
+				});
+	 //es que yo subo imagenes pero esta mas complejo dejaver de tu forma como hacerlo
+		/*	$("#uploadImage").on("submit",(function(e){
+					e.preventDefault();
+console.log($("#uploadImage").serialize());
+						 $.ajax({url: "Controller/usuariosController.php?Operacion=subirFotoAvatar",
+						 	type: "POST", 
+					 data:new FormData(this) ,
+					 contentType: false,  
+					 processData:false,
+					  cache: false,
+					  success: function(result){
+					  $("#message").html(result);
+					  
+  				     }});
+					
+			}));
+*/
+			})	
+
+	 </script>
 </head>
 <body>
+
+	<?php
+ $carpetaDestino="Avatar/";
+ 
+    # si hay algun archivo que subir
+    if(isset($_FILES["archivo"]) && $_FILES["archivo"]["name"][0])
+    {
+ 
+        # recorremos todos los arhivos que se han subido
+        for($i=0;$i<count($_FILES["archivo"]["name"]);$i++)
+        {
+ 
+            # si es un formato de imagen
+            if($_FILES["archivo"]["type"][$i]=="image/jpeg" || $_FILES["archivo"]["type"][$i]=="image/pjpeg" || $_FILES["archivo"]["type"][$i]=="image/gif" || $_FILES["archivo"]["type"][$i]=="image/png")
+            {
+ 
+                # si exsite la carpeta o se ha creado
+                if(file_exists($carpetaDestino) || @mkdir($carpetaDestino))
+                {
+                    $origen=$_FILES["archivo"]["tmp_name"][$i];
+                    $destino=$carpetaDestino.$_FILES["archivo"]["name"][$i];
+		              $sql="UPDATE data tbdata SET tbdata.avatar='".$destino."' WHERE tbdata.usuario='".$_SESSION["usuarioMostrar"]."'";
+						//echo "el query es ".$sql;
+						@  $db= AccesoDB::getInstancia();
+			           @ $db->executeQueryUpdate($sql);
+ 
+                    # movemos el archivo
+                    if(@move_uploaded_file($origen, $destino))
+                    {
+                        echo "<br>".$_FILES["archivo"]["name"][$i]." movido correctamente";
+
+
+                    }else{
+                        echo "<br>No se ha podido mover el archivo: ".$_FILES["archivo"]["name"][$i];
+                    }
+                }else{
+                    echo "<br>No se ha podido crear la carpeta: ".$carpetaDestino;
+                }
+            }else{
+                echo "<br>".$_FILES["archivo"]["name"][$i]." - NO es imagen jpg, png o gif";
+            }
+        }
+    }else{
+        echo "<br>No se ha subido ninguna imagen";
+    }
+
+	?>
 	<header>
 		<nav>
 		<ul>
@@ -44,45 +138,46 @@ ini_set ('error_reporting',0);
     <div id="subir"> <a href="publicar.php" id="link2">Publicar</a>
                </div>    
 	</div>
-<form method="post" enctype="multipart/form-data">
+<form id="uploadImage" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
 	<div id="contenido">
 	        <center><h2 id=title>Edital perfil:</h2></center>
 
-		<div id="portada">
+		<div id="portada">            
+
 		<img src=""<?php echo $row["avatar"];?> height="270" width="1349">
             <input type="file" id="file1">
             <div id="file2"><p id="porta">Portada</p></div>
 		</div>
 		<div id="avatar">
            <br><br><br>
-            <center><img src="" width="100" height="100"></center>
+            <center><img src="Avatar\Kakashi.png" width="100" height="100"></center>
             <br><br><br><br>
-         <input type="file" id="file1">
+         <input type="file" name="archivo[]" id="file1" multiple="multiple">
             <div id="file2"><p id="porta">Avatar</p></div>
             <div id="usuario"><?php echo $_SESSION["usuarioMostrar"] ?></div>
 
             <br><br>
             <hr>
 		</div>
-        <center><div id="conte">
+		<div id="message"></div>
+            <input type="submit" value="Subir Imagen" id="subirImagen">
+            	<center><div id="conte">
            <P id="edit">Nueva contraseña:</P>
-           <input type="password" id="campoede" placeholder="Contraseña">
-           <p id="edit2">Nuevo nombre de usuario:</p>
-           <input type="text" id="campoede2" placeholder="Usuario">
+           <input type="password" id="password" placeholder="Contraseña">
+           <p id="edit2">Nuevo Usuario</p>
+             <input type="text" id="usuariodato" placeholder="Usuario">
            <br>
-           <input type="submit" value="Editar" id="Editar">
-            
+           <input type="submit" value="Editar" id="editarDatos">
             </div></center>
 	</div></form>
-
+			
 	<div id="pie">
 		 <a href="Preguntas Frecuentes.php" id="link">Preguntas Frecuentes</a>
-        <a href="" id="link">Comunidad</a>
+		  <a href="" id="link">Comunidad</a>
         <a href="Sobre Nosotros.php" id="link">Sobre Nosotros</a>
         <a href="Contactenos.php" id="link">Contactenos</a>
         <a href="" id="link">Sitios Web</a>
 		<hr color="#C10000" size="4"><style type="text/css">hr {border: 0; height: 0; box-shadow: 0 2px 6px 5px #C10000; margin-top:10px; } </style>
-		<div id="derechos">
 			<footer>
 				<p>Cool Fanfic- Todos los derechos reservados 2019©</p>
 			</footer>
